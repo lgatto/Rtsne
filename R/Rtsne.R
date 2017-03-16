@@ -24,7 +24,7 @@
 #' @param pca logical; Whether an initial PCA step should be performed (default: TRUE)
 #' @param max_iter integer; Number of iterations (default: 1000)
 #' @param verbose logical; Whether progress updates should be printed (default: FALSE)
-#' @param ... Other arguments that can be passed to Rtsne
+#' @param ... Other arguments that can be passed to Rtsne and prcomp.
 #' @param is_distance logical; Indicate whether X is a distance matrix (experimental, default: FALSE)
 #' @param Y_init matrix; Initial locations of the objects. If NULL, random initialization will be used (default: NULL). Note that when using this, the initial stage with exaggerated perplexity values and a larger momentum term will be skipped.
 #' 
@@ -82,7 +82,7 @@ Rtsne.default <- function(X, dims=2, initial_dims=50, perplexity=30, theta=0.5, 
   
   # Apply PCA
   if (pca & !is_distance) {
-    pca_result <- prcomp(X,retx=TRUE)
+    pca_result <- prcomp(X,retx=TRUE, ...)
     X <- pca_result$x[,1:min(initial_dims,ncol(pca_result$x))]
   }
   if (check_duplicates & !is_distance){
